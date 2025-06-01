@@ -490,7 +490,7 @@
   };
 </script>
 <script>
-    const API_URL = "https://anket-backend.onrender.com"; // Backend adresin
+    const API_URL = "https://anket-a.onrender.com"; // Backend adresin
 
     function submitVote(event) {
       event.preventDefault();
@@ -500,7 +500,7 @@
       const tshirtModel = document.getElementById("tshirtModel").value;
       const pantColor = document.getElementById("pantColor").value;
 
-      fetch(API_URL + "/vote", {
+      fetch(https://anket-a.onrender.com/vote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, tshirtColor, tshirtModel, pantColor })
@@ -517,7 +517,7 @@
     }
 
     function getResults() {
-      fetch(API_URL + "/results")
+      fetch(https://anket-a.onrender.com/results")
         .then(res => res.json())
         .then(data => {
           const tbody = document.getElementById("resultsBody");
