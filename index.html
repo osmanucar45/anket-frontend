@@ -294,9 +294,10 @@
       return;
     }
 
-    const tshirtColor = document.querySelector('input[name="tshirtColor"]:checked');
-    const tshirtModel = document.querySelector('input[name="tshirtModel"]:checked');
-    const pantColor = document.querySelector('input[name="pantColor"]:checked');
+    const tshirtColor = document.querySelector('input[name="tshirtColor"]:checked')?.value;
+    const tshirtModel = document.querySelector('input[name="tshirtModel"]:checked')?.value;
+    const pantColor   = document.querySelector('input[name="pantColor"]:checked')?.value;
+
 
     if(!tshirtColor || !tshirtModel || !pantColor) {
       alert("Lütfen tüm alanları seçin.");
@@ -500,7 +501,7 @@
       const tshirtModel = document.getElementById("tshirtModel").value;
       const pantColor = document.getElementById("pantColor").value;
 
-      fetch(https://anket-a.onrender.com/vote", {
+      fetch("https://anket-a.onrender.com/vote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, tshirtColor, tshirtModel, pantColor })
@@ -517,7 +518,7 @@
     }
 
     function getResults() {
-      fetch(https://anket-a.onrender.com/results")
+      fetch("https://anket-a.onrender.com/results")
         .then(res => res.json())
         .then(data => {
           const tbody = document.getElementById("resultsBody");
