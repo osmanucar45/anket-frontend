@@ -18,6 +18,31 @@
       text-align: center;
       font-size: 1.5rem;
     }
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem;
+      gap: 1rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    #logoutBtn {
+      background: #c0392b;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: auto;
+    }
     .container {
       max-width: 900px;
       margin: 2rem auto;
@@ -73,32 +98,6 @@
     .chart-box {
       width: 280px;
     }
-    nav {
-      background-color: #34495e;
-      display: flex;
-      justify-content: center;
-      padding: 0.5rem;
-      gap: 1rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    #logoutBtn {
-      background: #c0392b;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      float: right;
-      margin-right: 10px;
-    }
     #loginContainer {
       text-align: center;
     }
@@ -136,6 +135,7 @@
       <button type="submit" class="submit-btn">Oy Ver</button>
     </form>
   </div>
+
   <div class="container" id="resultsContainer" style="display:none;">
     <h2>Oylama Sonuçları</h2>
     <div class="charts">
@@ -149,7 +149,7 @@
   <script>
     const API_URL = "https://anket-a.onrender.com";
     const ADMIN_CODE = "ADMIN45";
-    const LOCAL_KEY = "KULLANICI_KODU";
+    const LOCAL_KEY = "ANKET_KULLANICI_KODU";
     let currentCode = localStorage.getItem(LOCAL_KEY);
 
     const tshirtColors = [
