@@ -1,713 +1,225 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Okul Kıyafetimi Seçiyorum</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Okul Kıyafeti Anketi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #eef2f3, #d9e2ec);
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      align-items: center;
     }
     header {
-      background-color: #2c3e50;
+      background-color: #004080;
       color: white;
-      padding: 1rem;
+      width: 100%;
+      padding: 20px;
       text-align: center;
       font-size: 1.5rem;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-    nav {
-      background-color: #34495e;
-      display: flex;
-      justify-content: center;
-      padding: 0.5rem;
-      gap: 1rem;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-    nav a, #logoutBtn {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    nav a:hover {
-      background-color: #4a627a;
-    }
-    #logoutBtn {
-      background: #c0392b;
-      margin-left: auto;
-      border: none;
-    }
-    #logoutBtn:hover {
-      background: #e74c3c;
     }
     .container {
-      max-width: 900px;
-      margin: 2rem auto;
+      max-width: 600px;
+      width: 90%;
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      padding: 2rem;
-      flex-grow: 1;
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    .section {
-      margin-bottom: 1.5rem;
-    }
-    .option-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 0.5rem;
-      justify-content: center;
-    }
-    .option {
-      padding: 1rem;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      min-width: 100px;
-      transition: all 0.2s ease-in-out;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .option:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    }
-    .option.selected {
-      border-color: #2980b9;
-      background-color: #ecf6fb;
-      box-shadow: 0 3px 8px rgba(41,128,185,0.3);
-    }
-    .option .color-box {
-      width: 40px;
-      height: 40px;
-      border-radius: 4px;
-      margin: 0 auto 0.5rem auto;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-    .submit-btn {
-      display: block;
-      margin: 1.5rem auto 0 auto;
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      padding: 0.75rem 2rem;
-      font-size: 1.1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 4px 10px rgba(41,128,185,0.3);
-    }
-    .submit-btn:hover {
-      background-color: #2471a3;
-      transform: translateY(-2px);
-    }
-    .charts {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 2rem;
-    }
-    .chart-box {
+    input, select, button, textarea {
       width: 100%;
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
-    #loginContainer {
-      text-align: center;
-      padding-top: 3rem;
-    }
-    input[type="text"] {
-      padding: 0.75rem;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 80%;
-      max-width: 300px;
-      margin-bottom: 1rem;
-      text-align: center;
     }
-    .message-box {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #333;
+    button {
+      background-color: #007bff;
       color: white;
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      z-index: 1000;
-      display: none;
-      text-align: center;
-    }
-    .message-box button {
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
       cursor: pointer;
-      margin-top: 1rem;
+      transition: 0.3s;
     }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
+    button:hover {
+      background-color: #0056b3;
+    }
+    #voteSection, #resultSection, #adminPanel {
       display: none;
+    }
+    canvas {
+      margin: 20px auto;
+      max-width: 100%;
+    }
+    .message {
+      text-align: center;
+      font-weight: bold;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      overflow: hidden; /* Ensures rounded corners apply to content */
+      margin-top: 20px;
     }
     th, td {
-      border: 1px solid #ddd;
-      padding: 12px 15px;
+      border: 1px solid #ccc;
+      padding: 8px;
       text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-      font-weight: bold;
-      color: #333;
-    }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-    @media (max-width: 768px) {
-      .container {
-        margin: 1rem;
-        padding: 1.5rem;
-      }
-      .charts {
-        flex-direction: column;
-        align-items: center;
-      }
-      .chart-box {
-        max-width: 100%;
-      }
-      input[type="text"] {
-        width: 90%;
-      }
     }
   </style>
 </head>
 <body>
-  <header>Okul Kıyafetimi Seçiyorum</header>
-  <nav>
-    <a id="navHome" onclick="showSection('surveyContainer')">Anasayfa</a>
-    <a id="navResults" onclick="showSection('resultsContainer')">Sonuçlar</a>
-    <a id="navLogin" onclick="showSection('loginContainer')">Giriş</a>
-    <button id="logoutBtn" style="display:none;">Çıkış Yap</button>
-  </nav>
 
-  <div class="overlay" id="overlay"></div>
-  <div class="message-box" id="messageBox">
-    <p id="messageText"></p>
-    <button onclick="hideMessageBox()">Tamam</button>
-  </div>
+  <header>Okul Kıyafeti Anketi</header>
 
-  <!-- Giriş Konteyneri -->
-  <div class="container" id="loginContainer">
-    <h2>Tek Kullanımlık Kod ile Giriş</h2>
-    <input type="text" id="accessCode" placeholder="Kodunuzu girin" class="rounded-md" />
-    <button class="submit-btn" onclick="login()">Giriş Yap</button>
-  </div>
-
-  <!-- Anket Konteyneri -->
-  <div class="container" id="surveyContainer" style="display:none;">
-    <form id="surveyForm">
-      <div class="section">
-        <strong class="text-lg text-gray-700">Tişört Rengi</strong>
-        <div class="option-group" id="tshirtColors"></div>
-      </div>
-      <div class="section">
-        <strong class="text-lg text-gray-700">Tişört Modeli</strong>
-        <div class="option-group" id="tshirtModels"></div>
-      </div>
-      <div class="section">
-        <strong class="text-lg text-gray-700">Pantolon Rengi</strong>
-        <div class="option-group" id="pantColors"></div>
-      </div>
-      <button type="submit" class="submit-btn">Oy Ver</button>
-    </form>
-  </div>
-
-  <!-- Sonuçlar Konteyneri -->
-  <div class="container" id="resultsContainer" style="display:none;">
-    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Oylama Sonuçları</h2>
-    <div class="charts">
-      <div class="chart-box">
-        <h3 class="text-xl font-semibold mb-3 text-gray-700">Tişört Renkleri Dağılımı</h3>
-        <canvas id="colorChart"></canvas>
-      </div>
-      <div class="chart-box">
-        <h3 class="text-xl font-semibold mb-3 text-gray-700">Tişört Modelleri Dağılımı</h3>
-        <canvas id="modelChart"></canvas>
-      </div>
-      <div class="chart-box">
-        <h3 class="text-xl font-semibold mb-3 text-gray-700">Pantolon Renkleri Dağılımı</h3>
-        <canvas id="pantChart"></canvas>
-      </div>
+  <div class="container">
+    <div id="girisSection">
+      <h3>Giriş Yap</h3>
+      <input type="text" id="codeInput" placeholder="Kodunuzu girin">
+      <button onclick="kontrolEt()">Giriş Yap</button>
+      <p id="girisMesaji" class="message"></p>
     </div>
 
-    <h2 class="text-2xl font-bold text-center mt-8 mb-4 text-gray-800">Tüm Oylar (Tablo)</h2>
-    <div class="overflow-x-auto">
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th>Kod</th>
-                    <th>Tişört Rengi</th>
-                    <th>Tişört Modeli</th>
-                    <th>Pantolon Rengi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Oylar buraya dinamik olarak eklenecek -->
-            </tbody>
-        </table>
+    <div id="voteSection">
+      <h3>Oy Ver</h3>
+      <label>Tişört Rengi:</label>
+      <select id="tshirtSelect">
+        <option value="Beyaz">Beyaz</option>
+        <option value="Mavi">Mavi</option>
+        <option value="Siyah">Siyah</option>
+      </select>
+      <label>Pantolon Rengi:</label>
+      <select id="pantsSelect">
+        <option value="Lacivert">Lacivert</option>
+        <option value="Siyah">Siyah</option>
+        <option value="Gri">Gri</option>
+      </select>
+      <label>Yorum (İsteğe bağlı):</label>
+      <textarea id="commentInput" placeholder="Fikriniz..."></textarea>
+      <button onclick="oyla()">Oy Ver</button>
+    </div>
+
+    <div id="resultSection">
+      <h3>Sonuçlar</h3>
+      <canvas id="chart1"></canvas>
+      <canvas id="chart2"></canvas>
+      <table id="resultTable"></table>
+    </div>
+
+    <div id="adminPanel">
+      <h3>Yorumlar ve Excel</h3>
+      <div id="comments"></div>
+      <button onclick="indirExcel()">Excel İndir</button>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Backend API'nizin URL'i
-    const API_URL = "https://anket-a.onrender.com";
-    // Yönetici kodu, bu kodla giriş yapan admin paneline erişir
-    const ADMIN_CODE = "ADMIN45";
-    // Kullanıcı kodunu yerel depolamada saklamak için anahtar
-    const LOCAL_KEY = "ANKET_KULLANICI_KODU";
-    // Mevcut kullanıcı kodu
-    let currentCode = localStorage.getItem(LOCAL_KEY);
+    let girilenKod = "";
+    const ADMIN_KODU = "admin45";
 
-    // Tişört renk seçenekleri
-    const tshirtColors = [
-      { label: "Beyaz", color: "#ffffff" },
-      { label: "Siyah", color: "#000000" },
-      { label: "Mavi", color: "#3498db" },
-      { label: "Kırmızı", color: "#e74c3c" },
-      { label: "Yeşil", color: "#2ecc71" },
-      { label: "Turuncu", color: "#e67e22" },
-      { label: "Sarı", color: "#f1c40f" }
-    ];
-    // Tişört modeli seçenekleri
-    const tshirtModels = ["Bisiklet Yaka", "Polo Yaka"];
-    // Pantolon renk seçenekleri
-    const pantColors = [
-      { label: "Siyah", color: "#000000" },
-      { label: "Gri", color: "#bdc3c7" },
-      { label: "Füme", color: "#555555" }
-    ];
-    // Seçilen oy değerlerini tutan nesne
-    const selected = { tshirtColor: null, tshirtModel: null, pantColor: null };
-
-    /**
-     * Mesaj kutusunu gösterir.
-     * @param {string} message - Gösterilecek mesaj.
-     */
-    function showMessageBox(message) {
-      document.getElementById("messageText").textContent = message;
-      document.getElementById("messageBox").style.display = "block";
-      document.getElementById("overlay").style.display = "block";
-    }
-
-    /**
-     * Mesaj kutusunu gizler.
-     */
-    function hideMessageBox() {
-      document.getElementById("messageBox").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
-    }
-
-    /**
-     * Seçenekleri belirlenen bir konteynere render eder.
-     * @param {string} containerId - Seçeneklerin render edileceği div'in ID'si.
-     * @param {Array<Object|string>} options - Seçenekler dizisi (objeler veya stringler).
-     * @param {string} key - 'selected' nesnesinde güncellenecek anahtar.
-     * @param {boolean} isColor - Seçeneklerin renk kutusu içerip içermediği.
-     */
-    function renderOptions(containerId, options, key, isColor = false) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = ''; // İçeriği temizle
-      options.forEach(opt => {
-        const div = document.createElement("div");
-        div.className = "option";
-        div.onclick = () => {
-          selected[key] = opt.label || opt; // Seçilen değeri ayarla
-          // Aynı gruptaki diğer seçeneklerin 'selected' sınıfını kaldır
-          [...container.children].forEach(el => el.classList.remove("selected"));
-          div.classList.add("selected"); // Seçilen seçeneğe 'selected' sınıfını ekle
-        };
-        if (isColor) {
-          const colorBox = document.createElement("div");
-          colorBox.className = "color-box";
-          colorBox.style.backgroundColor = opt.color;
-          div.appendChild(colorBox);
-        }
-        const label = document.createElement("div");
-        label.textContent = opt.label || opt;
-        div.appendChild(label);
-        container.appendChild(div);
-      });
-    }
-
-    // Seçenekleri sayfa yüklendiğinde render et
-    renderOptions("tshirtColors", tshirtColors, "tshirtColor", true);
-    renderOptions("tshirtModels", tshirtModels, "tshirtModel");
-    renderOptions("pantColors", pantColors, "pantColor", true);
-
-    /**
-     * Kullanıcı girişi yapar.
-     */
-    async function login() {
-      const code = document.getElementById("accessCode").value.trim().toUpperCase();
-      if (!code) {
-        return showMessageBox("Lütfen bir kod giriniz.");
-      }
-
-      try {
-        // Kodu backend'de doğrula
-        const response = await fetch(`${API_URL}/validate-code`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code })
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Kod geçersiz veya daha önce kullanıldı.");
-        }
-
-        currentCode = code;
-        localStorage.setItem(LOCAL_KEY, code); // Kodu yerel depolamaya kaydet
-
-        // UI'yi güncelle
-        document.getElementById("loginContainer").style.display = "none";
-        document.getElementById("logoutBtn").style.display = "inline-block";
-        document.getElementById("navLogin").style.display = "none"; // Giriş linkini gizle
-
-        if (code === ADMIN_CODE) {
-          // Yönetici girişi
-          document.getElementById("surveyContainer").style.display = "none";
-          document.getElementById("resultsContainer").style.display = "block";
-          showSection('resultsContainer'); // Sonuçlar sayfasını göster
-        } else {
-          // Normal kullanıcı girişi
-          document.getElementById("surveyContainer").style.display = "block";
-          document.getElementById("resultsContainer").style.display = "none";
-          showSection('surveyContainer'); // Anket sayfasını göster
-        }
-        await loadResults(); // Sonuçları yükle
-      } catch (err) {
-        showMessageBox("Hata: " + err.message);
-        localStorage.removeItem(LOCAL_KEY); // Hata durumunda kodu temizle
-        currentCode = null;
-      }
-    }
-
-    /**
-     * Çıkış yapar.
-     */
-    document.getElementById("logoutBtn").onclick = () => {
-      localStorage.removeItem(LOCAL_KEY); // Kodu yerel depolamadan kaldır
-      currentCode = null;
-      location.reload(); // Sayfayı yeniden yükle
-    };
-
-    /**
-     * Form gönderildiğinde oy kaydeder.
-     */
-    document.getElementById("surveyForm").addEventListener("submit", async function(e) {
-      e.preventDefault(); // Varsayılan form gönderme işlemini engelle
-
-      if (currentCode === ADMIN_CODE) {
-        return showMessageBox("Yönetici oy veremez.");
-      }
-
-      const { tshirtColor, tshirtModel, pantColor } = selected;
-      if (!tshirtColor || !tshirtModel || !pantColor) {
-        return showMessageBox("Lütfen tüm seçimleri yapınız.");
-      }
-
-      try {
-        const response = await fetch(API_URL + "/vote", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code: currentCode, tshirtColor, tshirtModel, pantColor })
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Oy kaydederken bir hata oluştu.");
-        }
-
-        showMessageBox("Oy başarıyla kaydedildi!");
-        // Oy kullandıktan sonra anket formunu gizle ve sonuçları göster
-        document.getElementById("surveyContainer").style.display = "none";
-        showSection('resultsContainer');
-        await loadResults(); // Yeni sonuçları yükle
-      } catch (err) {
-        showMessageBox("Hata: " + err.message);
-      }
-    });
-
-    /**
-     * Backend'den oylama sonuçlarını yükler ve grafikleri/tabloları günceller.
-     */
-    async function loadResults() {
-      try {
-        const response = await fetch(API_URL + "/results");
-        if (!response.ok) {
-          throw new Error("Sonuçlar yüklenirken bir hata oluştu.");
-        }
-        const data = await response.json();
-
-        // Grafikler için verileri hazırla
-        const colorCounts = {}, modelCounts = {}, pantCounts = {};
-        data.forEach(vote => {
-          colorCounts[vote.tshirtColor] = (colorCounts[vote.tshirtColor] || 0) + 1;
-          modelCounts[vote.tshirtModel] = (modelCounts[vote.tshirtModel] || 0) + 1;
-          pantCounts[vote.pantColor] = (pantCounts[vote.pantColor] || 0) + 1;
-        });
-
-        renderChart("colorChart", "Tişört Renkleri", colorCounts, true);
-        renderChart("modelChart", "Tişört Modelleri", modelCounts, false);
-        renderChart("pantChart", "Pantolon Renkleri", pantCounts, true);
-
-        // Tablo için verileri render et
-        renderResultsTable(data);
-      } catch (err) {
-        showMessageBox("Sonuçları yüklerken hata: " + err.message);
-      }
-    }
-
-    // Chart.js grafikleri için global referanslar
-    const charts = {};
-
-    /**
-     * Chart.js kullanarak bir grafik render eder.
-     * @param {string} id - Canvas elementinin ID'si.
-     * @param {string} label - Grafiğin başlığı.
-     * @param {Object} data - Grafik verileri (örneğin: { "Kırmızı": 5, "Mavi": 3 }).
-     * @param {boolean} isPie - Pasta grafiği mi yoksa çubuk grafiği mi olacağını belirler.
-     */
-    function renderChart(id, label, data, isPie) {
-      const ctx = document.getElementById(id).getContext("2d");
-      // Eğer daha önce aynı ID'ye sahip bir grafik varsa yok et
-      if (charts[id]) {
-        charts[id].destroy();
-      }
-
-      const labels = Object.keys(data);
-      const counts = Object.values(data);
-      const bgColors = labels.map(l => {
-        // Tişört ve pantolon renklerinden eşleşen rengi bul
-        const foundColor = [...tshirtColors, ...pantColors].find(c => c.label === l);
-        // Eğer eşleşen bir renk bulunamazsa varsayılan bir renk kullan
-        return foundColor ? foundColor.color : `hsl(${Math.random() * 360}, 70%, 60%)`; // Rastgele renk
-      });
-
-      charts[id] = new Chart(ctx, {
-        type: isPie ? "pie" : "bar",
-        data: {
-          labels,
-          datasets: [{
-            label: label,
-            data: counts,
-            // Pasta grafiği için renkler, çubuk grafiği için tek bir renk
-            backgroundColor: isPie ? bgColors : "rgba(41,128,185,0.7)",
-            borderColor: isPie ? bgColors.map(c => c.replace('0.7', '1')) : "rgba(41,128,185,1)",
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false, // Konteynere göre boyutlandır
-          plugins: {
-            legend: {
-              display: isPie, // Pasta grafiğinde lejantı göster, çubuk grafiğinde gizle
-              position: 'top',
-              labels: {
-                font: {
-                  size: 14
-                }
-              }
-            },
-            title: {
-                display: true,
-                text: label, // Grafiğin başlığı
-                font: {
-                    size: 18,
-                    weight: 'bold'
-                },
-                padding: {
-                    top: 10,
-                    bottom: 20
-                }
-            }
-          },
-          scales: isPie ? {} : { // Pasta grafiğinde eksen yok, çubuk grafiğinde y ekseni ayarları
-            y: {
-              beginAtZero: true,
-              precision: 0, // Sadece tam sayı değerleri göster
-              ticks: {
-                font: {
-                  size: 12
-                }
-              },
-              title: {
-                display: true,
-                text: 'Oy Sayısı',
-                font: {
-                  size: 14
-                }
-              }
-            },
-            x: {
-              ticks: {
-                font: {
-                  size: 12
-                }
-              },
-              title: {
-                display: true,
-                text: 'Seçenek',
-                font: {
-                  size: 14
-                }
-              }
-            }
-          }
-        }
-      });
-    }
-
-    /**
-     * Oylama sonuçlarını tabloya render eder.
-     * @param {Array<Object>} votes - Tüm oyların listesi.
-     */
-    function renderResultsTable(votes) {
-      const tableBody = document.querySelector("#resultsTable tbody");
-      tableBody.innerHTML = ''; // Tablo içeriğini temizle
-
-      if (votes.length === 0) {
-        const row = tableBody.insertRow();
-        const cell = row.insertCell(0);
-        cell.colSpan = 4;
-        cell.textContent = "Henüz oy kullanılmadı.";
-        cell.className = "text-center py-4 text-gray-500";
+    async function kontrolEt() {
+      const code = document.getElementById("codeInput").value.trim();
+      if (code === ADMIN_KODU) {
+        document.getElementById("girisSection").style.display = "none";
+        document.getElementById("adminPanel").style.display = "block";
+        getResults(true);
         return;
       }
 
-      votes.forEach(vote => {
-        const row = tableBody.insertRow();
-        row.insertCell(0).textContent = vote.code;
-        row.insertCell(1).textContent = vote.tshirtColor;
-        row.insertCell(2).textContent = vote.tshirtModel;
-        row.insertCell(3).textContent = vote.pantColor;
+      const res = await fetch("https://anket-a.onrender.com/api/kod-kontrol", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
       });
-    }
-
-    /**
-     * Sayfadaki belirli bir bölümü gösterir ve diğerlerini gizler.
-     * @param {string} sectionIdToShow - Gösterilecek bölümün ID'si.
-     */
-    function showSection(sectionIdToShow) {
-      const sections = ['loginContainer', 'surveyContainer', 'resultsContainer'];
-      sections.forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
-      document.getElementById(sectionIdToShow).style.display = 'block';
-
-      // Eğer sonuçlar gösteriliyorsa ve yönetici değilse anket bölümünü gizle
-      if (sectionIdToShow === 'resultsContainer' && currentCode !== ADMIN_CODE && currentCode !== null) {
-        document.getElementById("surveyContainer").style.display = "none";
-      }
-      // Eğer anket gösteriliyorsa, sonuçları gizle
-      if (sectionIdToShow === 'surveyContainer') {
-        document.getElementById("resultsContainer").style.display = "none";
-      }
-       // Eğer giriş gösteriliyorsa, sonuçları ve anketi gizle
-       if (sectionIdToShow === 'loginContainer') {
-        document.getElementById("resultsContainer").style.display = "none";
-        document.getElementById("surveyContainer").style.display = "none";
-       }
-    }
-
-
-    // Sayfa yüklendiğinde yapılacak işlemler
-    window.onload = async () => {
-      // Navigasyon elementlerini seç
-      const navHome = document.getElementById('navHome');
-      const navResults = document.getElementById('navResults');
-      const navLogin = document.getElementById('navLogin');
-      const logoutBtn = document.getElementById('logoutBtn');
-
-      if (currentCode) {
-        // Kullanıcı kodu varsa
-        navLogin.style.display = 'none'; // Giriş linkini gizle
-        logoutBtn.style.display = 'inline-block'; // Çıkış yap butonunu göster
-
-        if (currentCode === ADMIN_CODE) {
-          // Yönetici ise
-          showSection('resultsContainer'); // Doğrudan sonuçlar sayfasını göster
-          await loadResults(); // Sonuçları yükle
-        } else {
-          // Normal kullanıcı ise
-          try {
-            // Kullanıcının daha önce oy kullanıp kullanmadığını kontrol et
-            const response = await fetch(`${API_URL}/has-voted?code=${currentCode}`);
-            if (!response.ok) {
-              throw new Error("Oy durumu kontrol edilirken bir hata oluştu.");
-            }
-            const data = await response.json();
-
-            if (data.hasVoted) {
-              // Eğer oy kullanmışsa sonuçları göster
-              showSection('resultsContainer');
-              await loadResults();
-            } else {
-              // Oy kullanmamışsa anket sayfasını göster
-              showSection('surveyContainer');
-            }
-          } catch (err) {
-            showMessageBox("Uygulama başlatılırken hata: " + err.message);
-            // Hata durumunda giriş sayfasına yönlendir veya hata mesajı göster
-            showSection('loginContainer');
-            localStorage.removeItem(LOCAL_KEY); // Hata durumunda kodu temizle
-            currentCode = null;
-          }
-        }
+      const data = await res.json();
+      if (data.valid) {
+        girilenKod = code;
+        document.getElementById("voteSection").style.display = "block";
+        document.getElementById("girisMesaji").textContent = "Giriş başarılı ✔";
+        document.getElementById("girisMesaji").style.color = "green";
       } else {
-        // Kullanıcı kodu yoksa giriş sayfasını göster
-        showSection('loginContainer');
-        navLogin.style.display = 'inline-block'; // Giriş linkini göster
-        logoutBtn.style.display = 'none'; // Çıkış yap butonunu gizle
+        document.getElementById("girisMesaji").textContent = "❌ Kod geçersiz ya da daha önce kullanıldı.";
+        document.getElementById("girisMesaji").style.color = "red";
       }
-    };
+    }
+
+    async function oyla() {
+      const tshirt = document.getElementById("tshirtSelect").value;
+      const pants = document.getElementById("pantsSelect").value;
+      const comment = document.getElementById("commentInput").value;
+
+      const res = await fetch("https://anket-a.onrender.com/api/oyla", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: girilenKod, tshirt, pants, comment })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      if (res.status === 200) {
+        document.getElementById("voteSection").style.display = "none";
+        getResults();
+      }
+    }
+
+    async function getResults(admin = false) {
+      const res = await fetch("https://anket-a.onrender.com/api/sonuclar");
+      const data = await res.json();
+
+      const tshirtCounts = {};
+      const pantsCounts = {};
+      let tableHTML = "<tr><th>Tişört</th><th>Pantolon</th><th>Yorum</th></tr>";
+
+      const yorumlar = [];
+
+      data.forEach(item => {
+        tshirtCounts[item.tshirt] = (tshirtCounts[item.tshirt] || 0) + 1;
+        pantsCounts[item.pants] = (pantsCounts[item.pants] || 0) + 1;
+        if (admin) {
+          tableHTML += `<tr><td>${item.tshirt}</td><td>${item.pants}</td><td>${item.comment || "-"}</td></tr>`;
+          if (item.comment) yorumlar.push(item.comment);
+        }
+      });
+
+      new Chart(document.getElementById("chart1"), {
+        type: 'pie',
+        data: {
+          labels: Object.keys(tshirtCounts),
+          datasets: [{
+            data: Object.values(tshirtCounts),
+            backgroundColor: ['#f00', '#00f', '#000', '#ccc']
+          }]
+        },
+        options: { plugins: { title: { display: true, text: "Tişört Rengi Tercihleri" } } }
+      });
+
+      new Chart(document.getElementById("chart2"), {
+        type: 'pie',
+        data: {
+          labels: Object.keys(pantsCounts),
+          datasets: [{
+            data: Object.values(pantsCounts),
+            backgroundColor: ['#333', '#555', '#aaa']
+          }]
+        },
+        options: { plugins: { title: { display: true, text: "Pantolon Rengi Tercihleri" } } }
+      });
+
+      document.getElementById("resultSection").style.display = "block";
+
+      if (admin) {
+        document.getElementById("resultTable").innerHTML = tableHTML;
+        document.getElementById("comments").innerHTML = "<strong>Yorumlar:</strong><br>" + yorumlar.join("<hr>");
+      }
+    }
+
+    function indirExcel() {
+      window.location.href = "https://anket-a.onrender.com/api/excel";
+    }
   </script>
 </body>
 </html>
