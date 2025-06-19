@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://survey-nujy.onrender.com";
 document.addEventListener("DOMContentLoaded", function () {
   populerSecimleriGetir();
   const loginSection = document.getElementById("login-section");
